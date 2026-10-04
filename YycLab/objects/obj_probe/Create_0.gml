@@ -1,35 +1,67 @@
-// ==== LAB 2: while / repeat / switch / arrays / with ====
+// ==== LAB 3 ====
 
-// 1) while
-cont_while = 0;
-while (cont_while < 3) {
-    cont_while += 1;
+// 1) funciones script con argumentos
+resultado_fn = lab3_sumar(7, 11);
+doble_fn = lab3_duplicar(6);
+
+// 2) struct literal + acceso con punto
+inv = { oro: 10, nombre: "pepe" };
+oro_total = inv.oro;
+nombre_inv = inv.nombre;
+
+// 3) struct con accessor $
+clave_texto = "oro";
+valor_dollar = inv[$ clave_texto];
+
+// 4) ds_map y ds_list
+mapa = ds_map_create();
+ds_map_add(mapa, "vida", 100);
+vida_mapa = ds_map_find_value(mapa, "vida");
+lista_ds = ds_list_create();
+ds_list_add(lista_ds, 5);
+item_ds = ds_list_find_value(lista_ds, 0);
+ds_map_destroy(mapa);
+ds_list_destroy(lista_ds);
+
+// 5) global
+global.vida = 100;
+vida_global = global.vida;
+
+// 6) array 2D + array_length
+matriz = array_create(3, 3);
+matriz[1][2] = 42;
+leer_2d = matriz[1][2];
+largo_matriz = array_length(matriz);
+
+// 7) do-until
+cont_do = 0;
+do {
+    cont_do += 1;
+} until (cont_do >= 3);
+
+// 8) break y continue
+suma_bc = 0;
+for (j = 0; j < 10; j++) {
+    if (j == 3) continue;
+    if (j == 8) break;
+    suma_bc += j;
 }
 
-// 2) repeat
-cont_repeat = 0;
-repeat (4) {
-    cont_repeat += 1;
+// 9) switch numerico
+codigo = 2;
+switch (codigo) {
+    case 1: texto_sw = "uno"; break;
+    case 2: texto_sw = "dos"; break;
+    default: texto_sw = "otro"; break;
 }
 
-// 3) switch
-fruta = "banana";
-switch (fruta) {
-    case "banana":  valor_switch = 1; break;
-    case "manzana": valor_switch = 2; break;
-    default:        valor_switch = 3; break;
-}
+// 10) ternario
+etiqueta = (codigo == 2) ? "es dos" : "no es dos";
 
-// 4) arrays
-lista = array_create(3);
-lista[0] = 10;
-lista[1] = 20;
-lista[2] = 30;
-suma_lista = lista[0] + lista[2];
+// 11) method variable
+mover = function(dx) { return dx * 2; };
+result_method = mover(4);
 
-// 5) with
-with (obj_probe) {
-    pepe_lab2 = 99;
-}
-
-show_debug_message(string(suma_lista) + string(cont_while));
+// 12) variables builtin de instancia
+mi_x = x;
+nueva_y = y + 10;

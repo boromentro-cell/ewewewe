@@ -8,8 +8,9 @@
     "children":[],
     "name":"Default",
   },
-  "defaultScriptType":0,
+  "defaultScriptType":1,
   "Folders":[
+    {"$GMFolder":"","%Name":"Scripts","folderPath":"folders/Scripts.yy","name":"Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Objects","folderPath":"folders/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "ForcedPrefabProjectReferences":[],
@@ -22,7 +23,9 @@
   "name":"YycLab",
   "resources":[
     {"id":{"name":"obj_probe","path":"objects/obj_probe/obj_probe.yy",},},
+    {"id":{"name":"obj_probe2","path":"objects/obj_probe2/obj_probe2.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"id":{"name":"scr_lab3","path":"scripts/scr_lab3/scr_lab3.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",

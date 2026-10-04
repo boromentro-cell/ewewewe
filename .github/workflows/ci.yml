@@ -1,0 +1,100 @@
+name: YYC Lab Builds
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # Runtime LTS pineado para que los builds sean reproducibles.
+  # Si falla con "toolchain not found", dejalo vacio ('') para usar el ultimo.
+  TOOLCHAIN: '2026.0.0.23'
+
+jobs:
+  build:
+    name: ${{ matrix.project.name }} · ${{ matrix.runtime }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        runtime: [vm, native]
+        project:
+          - name: BlankGame
+            path: "BLANK GAME"
+          - name: YycLab
+            path: "YycLab"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install GameMaker CLI
+        run: npm install -g @gamemaker/gm-cli@latest
+
+      - name: Find GameMaker project
+        id: project
+        shell: pwsh
+        run: |
+          $yyp = Get-ChildItem -Path "${{ github.workspace }}\${{ matrix.project.path }}" -Recurse -Filter *.yyp | Select-Object -First 1 -ExpandProperty FullName
+          if (-not $yyp) {
+            Write-Error "No se encontro ningun .yyp en '${{ matrix.project.path }}'"
+            exit 1
+          }
+          $dir = Split-Path -Path $yyp -Parent
+          Write-Output "yyp=$yyp" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          Write-Output "dir=$dir" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Login to GameMaker
+        run: gm-cli login ${{ secrets.ACCESS_KEY }}
+
+      - name: Configure gm-options.json
+        working-directory: ${{ steps.project.outputs.dir }}
+        shell: pwsh
+        run: |
+          $options = @{
+            gms2 = @{
+              windows = @{
+                packageType = "zip"
+              }
+            }
+          }
+          if ($env:TOOLCHAIN -ne '') {
+            $options.toolchain = "GMS2@$env:TOOLCHAIN"
+          }
+          if ("${{ matrix.runtime }}" -eq "native") {
+            $vswhere = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe"
+            if (-not (Test-Path $vswhere)) {
+              Write-Error "vswhere.exe not found"
+              exit 1
+            }
+            $vsPath = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+            if (-not $vsPath) {
+              Write-Error "Visual Studio C++ tools not found en el runner"
+              exit 1
+            }
+            $vsDevCmd = Join-Path $vsPath "Common7\Tools\VsDevCmd.bat"
+            $options.gms2.windows.visualStudioSdk = $vsDevCmd
+          }
+          $options | ConvertTo-Json -Depth 5 | Set-Content -Path "gm-options.json"
+          Write-Output "gm-options.json generado:"
+          Get-Content "gm-options.json"
+
+      - name: Package Windows build
+        working-directory: ${{ steps.project.outputs.dir }}
+        shell: pwsh
+        run: gm-cli package --target=windows --runtime=${{ matrix.runtime }} --output=${{ matrix.project.name }}_${{ matrix.runtime }}.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.project.name }}_${{ matrix.runtime }}
+          path: ${{ steps.project.outputs.dir }}\${{ matrix.project.name }}_${{ matrix.runtime }}.zip
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,6 @@
+# GameMaker Studio 2 - basura generada
+*.bak
+*.gidb
+.vs/
+.DS_Store
+Thumbs.db

@@ -8,14 +8,15 @@
 // ============================================================================
 
 // ---- assets referenciados por nombre pero ausentes (variables stub) ----
-globalvar bg_night_01, bg_night_02, bg_night_03, bg_night_04, obj_end, obj_search_panel;
-globalvar obj_startx, obj_str, obj_test_profile, obj_texture_search_button, object, object_get_sprite;
-globalvar rm_Titulo, rm_level_editor_Restart, rm_new_level_editor_play, rm_worlds_browser, snd_level_browser, snd_music_Tittlescreen;
-globalvar spr, spr_boton_test, spr_fireflower, spr_h, spr_insignia_base, spr_like_lvl;
-globalvar spr_mushroom, spr_new, spr_perfil_barra_categoria, spr_perfil_boton_foto, spr_perfil_boton_volver, spr_perfil_celda_icono;
+globalvar bg_night_01, bg_night_02, bg_night_03, bg_night_04, rm_Titulo, rm_level_editor_Restart;
+globalvar rm_new_level_editor_play, snd_level_browser, snd_music_Tittlescreen, spr_boton_test, spr_fireflower, spr_insignia_base;
+globalvar spr_like_lvl, spr_mushroom, spr_perfil_barra_categoria, spr_perfil_boton_foto, spr_perfil_boton_volver, spr_perfil_celda_icono;
 globalvar spr_perfil_flecha_volver, spr_perfil_fondo, spr_perfil_panel, spr_perfil_retrato, spr_perfil_scroll_canal, spr_perfil_seleccion;
-globalvar spr_perfil_signo_mas, spr_perfil_signo_menos, spr_star, spr_star_favorites, spr_w, sprite;
-globalvar sprite_add, sprite_delete, sprite_exists, sprite_get_height, sprite_get_name, sprite_get_width;
+globalvar spr_perfil_signo_mas, spr_perfil_signo_menos, spr_star, spr_star_favorites;
+
+// ---- referencias para evitar que el asset compiler marque estos objetos
+// ---- como "unused assets" y los remueva del paquete
+var _yyclab_keep = [obj_profile_view, obj_texture_uploader, obj_upload_level, obj_lab_hijo];
 
 // ---- funciones definidas en otros scripts del juego original ----
 function custom_init(a0) { }

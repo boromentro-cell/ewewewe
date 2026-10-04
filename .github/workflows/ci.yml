@@ -52,6 +52,7 @@ jobs:
           Write-Output "dir=$dir" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Login to GameMaker
+        working-directory: ${{ steps.project.outputs.dir }}
         run: gm-cli login ${{ secrets.ACCESS_KEY }}
 
       - name: Configure gm-options.json

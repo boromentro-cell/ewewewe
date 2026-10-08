@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_banco",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_banco",
+  "parent":{
+    "name":"YycLab",
+    "path":"YycLab.yyp",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -285,7 +285,7 @@ function scr_t57() {
 }
 
 function scr_t58() {
-    if (ds_map_find_value(async_load, "id") == texto) { async_load = 0; if (ds_map_find_value(async_load, "status") == 1) { x = 0.112 } }
+    if (ds_map_find_value(async_load, "id") == texto) { if (ds_map_find_value(async_load, "status") == 1) { x = 0.112 } }
 }
 
 function scr_t59() {
